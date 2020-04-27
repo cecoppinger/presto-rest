@@ -14,7 +14,7 @@
 
 package rocks.prestodb.rest;
 
-import com.facebook.presto.spi.ConnectorInsertTableHandle;
+import io.prestosql.spi.connector.ConnectorInsertTableHandle;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

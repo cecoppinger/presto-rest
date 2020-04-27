@@ -14,10 +14,10 @@
 
 package rocks.prestodb.rest.github;
 
-import com.facebook.presto.spi.ColumnMetadata;
-import com.facebook.presto.spi.ConnectorTableMetadata;
-import com.facebook.presto.spi.SchemaTableName;
-import com.facebook.presto.spi.type.BigintType;
+import io.prestosql.spi.connector.ColumnMetadata;
+import io.prestosql.spi.connector.ConnectorTableMetadata;
+import io.prestosql.spi.connector.SchemaTableName;
+import io.prestosql.spi.type.BigintType;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import retrofit2.Response;
@@ -31,7 +31,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.facebook.presto.spi.type.VarcharType.createUnboundedVarcharType;
+import static io.prestosql.spi.type.VarcharType.createUnboundedVarcharType;
 import static java.util.stream.Collectors.toList;
 
 public class GithubRest

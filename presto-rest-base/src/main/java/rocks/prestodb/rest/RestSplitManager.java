@@ -14,15 +14,10 @@
 
 package rocks.prestodb.rest;
 
-import com.facebook.presto.spi.ConnectorSession;
-import com.facebook.presto.spi.ConnectorSplitSource;
-import com.facebook.presto.spi.ConnectorTableLayoutHandle;
-import com.facebook.presto.spi.FixedSplitSource;
-import com.facebook.presto.spi.HostAddress;
-import com.facebook.presto.spi.Node;
-import com.facebook.presto.spi.NodeManager;
-import com.facebook.presto.spi.connector.ConnectorSplitManager;
-import com.facebook.presto.spi.connector.ConnectorTransactionHandle;
+import io.prestosql.spi.connector.*;
+import io.prestosql.spi.HostAddress;
+import io.prestosql.spi.Node;
+import io.prestosql.spi.NodeManager;
 import com.google.common.collect.ImmutableList;
 
 import java.util.List;
@@ -40,15 +35,19 @@ public class RestSplitManager
     }
 
     @Override
-    public ConnectorSplitSource getSplits(ConnectorTransactionHandle transactionHandle, ConnectorSession session, ConnectorTableLayoutHandle layout)
+    public ConnectorSplitSource getSplits(
+            ConnectorTransactionHandle transactionHandle,
+            ConnectorSession session,
+            ConnectorTableHandle connectorTableHandle,
+            SplitSchedulingStrategy splitSchedulingStrategy)
     {
-        RestConnectorTableLayoutHandle layoutHandle = Types.checkType(layout, RestConnectorTableLayoutHandle.class, "layout");
+        RestTableHandle restTableHandle = (RestTableHandle) connectorTableHandle;
 
         List<HostAddress> addresses = nodeManager.getRequiredWorkerNodes().stream()
                 .map(Node::getHostAndPort)
                 .collect(toList());
 
         return new FixedSplitSource(ImmutableList.of(
-                new RestConnectorSplit(layoutHandle.getTableHandle(), addresses)));
+                new RestConnectorSplit(restTableHandle, addresses)));
     }
 }

@@ -14,8 +14,8 @@
 
 package rocks.prestodb.rest.github;
 
-import com.facebook.presto.spi.Plugin;
-import com.facebook.presto.spi.connector.ConnectorFactory;
+import io.prestosql.spi.Plugin;
+import io.prestosql.spi.connector.ConnectorFactory;
 import com.google.common.collect.ImmutableList;
 import rocks.prestodb.rest.RestConnectorFactory;
 

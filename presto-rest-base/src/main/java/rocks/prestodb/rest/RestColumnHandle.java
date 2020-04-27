@@ -14,8 +14,9 @@
 
 package rocks.prestodb.rest;
 
-import com.facebook.presto.spi.ColumnHandle;
-import com.facebook.presto.spi.type.Type;
+import io.prestosql.spi.connector.ColumnHandle;
+import io.prestosql.spi.type.Type;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -14,29 +14,11 @@
 
 package rocks.prestodb.rest;
 
-import com.facebook.presto.spi.ColumnHandle;
-import com.facebook.presto.spi.ColumnMetadata;
-import com.facebook.presto.spi.ConnectorInsertTableHandle;
-import com.facebook.presto.spi.ConnectorSession;
-import com.facebook.presto.spi.ConnectorTableHandle;
-import com.facebook.presto.spi.ConnectorTableLayout;
-import com.facebook.presto.spi.ConnectorTableLayoutHandle;
-import com.facebook.presto.spi.ConnectorTableLayoutResult;
-import com.facebook.presto.spi.ConnectorTableMetadata;
-import com.facebook.presto.spi.Constraint;
-import com.facebook.presto.spi.SchemaTableName;
-import com.facebook.presto.spi.SchemaTablePrefix;
-import com.facebook.presto.spi.connector.ConnectorMetadata;
-import com.facebook.presto.spi.connector.ConnectorOutputMetadata;
-import com.facebook.presto.spi.predicate.TupleDomain;
-import com.google.common.collect.ImmutableList;
-import io.airlift.slice.Slice;
+import io.prestosql.spi.connector.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -66,24 +48,6 @@ public class RestMetadata
     }
 
     @Override
-    public List<ConnectorTableLayoutResult> getTableLayouts(ConnectorSession connectorSession, ConnectorTableHandle connectorTableHandle, Constraint<ColumnHandle> constraint, Optional<Set<ColumnHandle>> optional)
-    {
-        RestTableHandle tableHandle = Types.checkType(connectorTableHandle, RestTableHandle.class, "tableHandle");
-        return ImmutableList.of(
-                new ConnectorTableLayoutResult(
-                        getTableLayout(connectorSession, new RestConnectorTableLayoutHandle(tableHandle)),
-                        TupleDomain.all()));
-    }
-
-    @Override
-    public ConnectorTableLayout getTableLayout(ConnectorSession connectorSession, ConnectorTableLayoutHandle connectorTableLayoutHandle)
-    {
-
-        RestConnectorTableLayoutHandle tableLayoutHandle = Types.checkType(connectorTableLayoutHandle, RestConnectorTableLayoutHandle.class, "tableLayoutHandle");
-        return new ConnectorTableLayout(tableLayoutHandle);
-    }
-
-    @Override
     public ConnectorTableMetadata getTableMetadata(ConnectorSession connectorSession, ConnectorTableHandle connectorTableHandle)
     {
         RestTableHandle tableHandle = Types.checkType(connectorTableHandle, RestTableHandle.class, "tableHandle");
@@ -91,7 +55,7 @@ public class RestMetadata
     }
 
     @Override
-    public List<SchemaTableName> listTables(ConnectorSession connectorSession, String schemaNameOrNull)
+    public List<SchemaTableName> listTables(ConnectorSession connectorSession, Optional<String> schemaNameOrNull)
     {
         return rest.listTables();
     }
@@ -117,15 +81,13 @@ public class RestMetadata
     }
 
     @Override
-    public ConnectorInsertTableHandle beginInsert(ConnectorSession session, ConnectorTableHandle connectorTableHandle)
-    {
-        RestTableHandle tableHandle = Types.checkType(connectorTableHandle, RestTableHandle.class, "tableHandle");
-        return new RestInsertTableHandle(tableHandle);
+    public boolean usesLegacyTableLayouts() {
+        return false;
     }
 
     @Override
-    public Optional<ConnectorOutputMetadata> finishInsert(ConnectorSession session, ConnectorInsertTableHandle insertHandle, Collection<Slice> fragments)
+    public ConnectorTableProperties getTableProperties(ConnectorSession session, ConnectorTableHandle table)
     {
-        return Optional.empty();
+        return new ConnectorTableProperties();
     }
 }
