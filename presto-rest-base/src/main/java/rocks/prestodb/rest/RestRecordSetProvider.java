@@ -17,7 +17,9 @@ package rocks.prestodb.rest;
 import io.prestosql.spi.connector.*;
 import io.prestosql.spi.type.Type;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
