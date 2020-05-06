@@ -21,13 +21,6 @@
     </properties>
 
     <dependencies>
-        <!-- Presto SPI -->
-        <dependency>
-            <groupId>io.prestosql</groupId>
-            <artifactId>presto-spi</artifactId>
-            <version>332</version>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
@@ -43,12 +36,6 @@
                     <artifactId>jackson-databind</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>io.airlift</groupId>
-            <artifactId>slice</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
